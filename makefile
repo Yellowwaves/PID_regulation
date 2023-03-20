@@ -1,26 +1,23 @@
-all : projet_c
+all: main autotests visualisationT consigne visualisationC regulation
 
-projet_c : test_simulateur.o visualisationT.o visualisationC.o regulation.o consigne.o simulateur.o
-	gcc -o test_simulateur test_simulateur.o visualisationT.o visualisationC.o regulation.o consigne.o simulateur.o
+main: main.c autotests.o visualisationT.o consigne.o visualisationC.o regulation.o
+	gcc -o autotests main.c autotests.o visualisationT.o consigne.o visualisationC.o regulation.o -lm
 
-visualisationT.o : visualisationT.c visualisationT.h
-	gcc -c visualisationT.c
+autotests: autotests.c
+	gcc -c autotests.c -o autotests.o -lm
 
+visualisationT: visualisationT.c
+	gcc -c visualisationT.c -o visualisationT.o
 
-visualisationC.o : visualisationC.c visualisationC.h
-	gcc -c visualisationC.c
+consigne: consigne.c
+	gcc -c consigne.c -o consigne.o -lm
 
-regulation.o : regulation.c regulation.h
-	gcc -c regulation.c
+visualisationC: visualisationC.c
+	gcc -c visualisationC.c -o visualisationC.o
 
-consigne.o : consigne.c consigne.h
-	gcc -c consigne.c
+regulation: regulation.c
+	gcc -c regulation.c -o regulation.o
 
-test_simulateur.o : test_simulateur.c simulateur.h visualisationT.h visualisationC.h regulation.h consigne.h 
-	gcc -c test_simulateur.c
+clean:
+	rm -f main autotests.o visualisationT.o consigne.o visualisationC.o regulation.o
 
-simulateur.o: simulateur.c simulateur.h
-	gcc -c simulateur.c
-
-clean : 
-	rm *.o

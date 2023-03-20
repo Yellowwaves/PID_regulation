@@ -8,33 +8,35 @@ float regulationTest(int regul, float consigne, float *tabT, int nT)
 	float Kp = 1;
 	float Ki = 0.1;
 	float Kd = 0.1;
-	float integral_erreur = 0;
-	float pid = 0;
-	float erreur=0;
-	float erreur_précédente = 0;
-	float variation_erreur = 0;
-	float somme_erreurs = 0;
-
+	float P = 0;
+	float I = 0;
+	float D = 0;
+	float erreur = 0;
 	
 
-	if (regul == 1)
-	{ // Mode Tor
-		if (consigne >= tabT[nT - 1])
-		{
-			cmd = 0; // on coupe le chauffage
+		if (regul == 1)
+		{ // Mode Tor
+			if (consigne >= tabT[nT - 1])
+			{
+				cmd = 50; // on allume le chauffage
+			}
+			else
+			{
+				cmd = 0; // on éteint le chauffage
+			}
 		}
-		else
+		if (regul == 2)
+		{ // Mode PID
+			for (int compteur = 0; compteur < nT; compteur++)
 		{
-			cmd = 50; // on met à 50% la puissance de chauffage
+			P=Kp*(consigne-tabT[compteur]);
+			I=Ki*10*(consigne-(tabT[compteur]-tabT[compteur-1]));
+			erreur+=I;
+			D=(tabT[compteur]-tabT[compteur-1])/10*Kd;
+			cmd=P+erreur+D;
 		}
-	}
-	if (regul == 0)
-	{ // Mode PID
-		erreur = consigne - tabT[nT - 1];
-		somme_erreurs += erreur;
-		variation_erreur = erreur - erreur_précédente;
-		pid = Kp * erreur + Ki * somme_erreurs + Kd * variation_erreur;
-		erreur_précédente = erreur;
-	}
-	return cmd;
+		}
+		return cmd;
+	
 }
+

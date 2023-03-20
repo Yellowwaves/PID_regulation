@@ -35,9 +35,15 @@ void visualisationC(float puissance) // Cette fonction permet de récupérer la 
 
       fprintf(fdata_out, "%s", lines[0]);
       fprintf(fdata_out, "%s", lines[1]);
-cc
 
-
+      if (puissance == 0.0) // si puissance = 0, on écrit 'false' à la ligne 3 du fichier 'data.txt'
+      {
+         fprintf(fdata_out, "%s", "false");
+      }
+      else if ((puissance > 0.0)&&(puissance<=100.0)) // si puissance entre 0 et 100, témoin de chauffe allumé
+      {
+         fprintf(fdata_out, "%s", "true");  
+      }
 
       fclose (fdata_in);
       fclose (fdata_out);

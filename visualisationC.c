@@ -7,7 +7,6 @@
 
 void visualisationC(float puissance) // Cette fonction permet de récupérer la consigne, elle est affectée par le verrou et elle write true/false dans le fichier data
 {
-   printf("%d", 1);
    if (access(".verrouData", F_OK)) 
    {
     // .verrouData n'existe pas, donc on peut écrire dans data
@@ -15,39 +14,38 @@ void visualisationC(float puissance) // Cette fonction permet de récupérer la 
       fverrou = fopen (".verrouData", "w"); // on créé le fichier verrou
 
       
-      FILE *fdata_in;
-      fdata_in = fopen ("exemple.txt", "r+"); // on ouvre le fichier data
+      FILE *fdata;
+      fdata = fopen ("data.txt", "r+"); // on ouvre le fichier data
 
 
+      char lines[3][10];// on crée un tableau de 2 lignes de 10 caractères max, pour stocker temporairment les lignes du fichier data.txt
 
-      char new_line[] = "true";
-      char lines[2][10];
-
-      int current_line_number = 0;
-      while (fgets(lines[current_line_number], 10, fdata_in) != NULL) {
-         if (current_line_number == 1) {
+      int numero_ligne = 0;
+      while (fgets(lines[numero_ligne], 10, fdata) != NULL) {
+         /*if (numero_ligne == 3) {
                break;
-         }
-         current_line_number++;
+         }*/
+         numero_ligne++;
       }
-      FILE* fdata_out;
-      fdata_out= fopen("exemple.txt", "w");
+      fclose (fdata);
+      fdata= fopen("data.txt", "w");
 
-      fprintf(fdata_out, "%s", lines[0]);
-      fprintf(fdata_out, "%s", lines[1]);
 
-      if (puissance == 0.0) // si puissance = 0, on écrit 'false' à la ligne 3 du fichier 'data.txt'
+      if (puissance == 0.0) // si puissance = 0, on écrit 'false' à la fin du 'data.txt'
       {
-         fprintf(fdata_out, "%s", "false");
+         fprintf(fdata, "%s", "false\n");
       }
-      else if ((puissance > 0.0)&&(puissance<=100.0)) // si puissance entre 0 et 100, témoin de chauffe allumé
+      else if ((puissance > 0.0)&&(puissance<=100.0)) // si puissance entre 0 et 100, témoin de chauffe allumé (true)
       {
-         fprintf(fdata_out, "%s", "true");  
+         fprintf(fdata, "%s", "true\n");  
       }
 
-      fclose (fdata_in);
-      fclose (fdata_out);
-      fclose (fverrou);
+      
+      fprintf(fdata, "%s", lines[1]);
+      fprintf(fdata, "%s", lines[2]);
+      printf("%s", lines[2]);
+      fclose (fdata);
+      fclose (fverrou); //on ferme les fichiers data.txt et verrou
       remove(".verrouData"); // on supprime le fichier verrou
    }
 }

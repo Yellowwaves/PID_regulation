@@ -43,7 +43,6 @@ void visualisationC(float puissance) // Cette fonction permet de récupérer la 
       
       fprintf(fdata, "%s", lines[1]);
       fprintf(fdata, "%s", lines[2]);
-      printf("%s", lines[2]);
       fclose (fdata);
       fclose (fverrou); //on ferme les fichiers data.txt et verrou
       remove(".verrouData"); // on supprime le fichier verrou

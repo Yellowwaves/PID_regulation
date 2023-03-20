@@ -35,7 +35,7 @@ void visualisationC(float puissance) // Cette fonction permet de récupérer la 
 
       fprintf(fdata_out, "%s", lines[0]);
       fprintf(fdata_out, "%s", lines[1]);
-
+cc
 
 
 

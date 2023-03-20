@@ -26,8 +26,8 @@ void visualisationT(temp_t myTemp) // ce fichier permet d'écrire les données d
 
 
           fprintf(fdata, "%s", lines[0]);
-          fprintf(fdata, "%s", myTemp.exterieure);
-          fprintf(fdata, "%s", myTemp.interieure);
+          fprintf(fdata, "%.2f\n", myTemp.exterieure);
+          fprintf(fdata, "%.2f", myTemp.interieure);
           fclose(fdata);
           fclose(fverrou);       // on ferme les fichiers data.txt et verrou
           remove(".verrouData"); // on supprime le fichier verrou

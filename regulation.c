@@ -10,9 +10,11 @@ float regulationTest(int regul, float consigne, float *tabT, int nT)
 	float Kd = 0.15;
 	float P = 0;
 	float I = 0;
-	float D = 0;
-	float erreur = 0;
+	float derivative = 0;
+	float error = 0;
+	float last_error = 0;
 	float somme_erreur = 0;
+	float integral = 0;
 
 	if (regul == 1)
 	{ // Mode Tor
@@ -27,13 +29,19 @@ float regulationTest(int regul, float consigne, float *tabT, int nT)
 	}
 	if (regul == 2)
 	{ // Mode PID
-		for (int compteur = 0; compteur < nT; compteur++)
+		for (int compteur = 1; compteur < nT; compteur++)
 		{
-			P = Kp * (consigne - tabT[compteur]);
-			I += Ki * (consigne - (tabT[compteur] + tabT[compteur - 1]));
-			somme_erreur += I;
-			D = (tabT[compteur] - tabT[compteur - 1]) * Kd;
-			cmd = P + somme_erreur + D;
+			error = consigne - tabT[compteur];
+
+			// Calculate integral
+			integral += error * 0.1;
+
+			// Calculate derivative
+			derivative = (error - (consigne-tabT[compteur-1])) / 0.1;
+			last_error = error;
+
+			// Calculate output
+			cmd = Kp * error + Ki * integral + Kd * derivative;
 		}
 	}
 	if (cmd > 100.0)

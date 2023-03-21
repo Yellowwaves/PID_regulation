@@ -19,5 +19,5 @@ regulation: regulation.c
 	gcc -c regulation.c -o regulation.o
 
 clean:
-	rm -f main autotests.o visualisationT.o consigne.o visualisationC.o regulation.o
+	rm *.o
 

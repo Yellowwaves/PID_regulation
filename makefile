@@ -1,4 +1,4 @@
-all: main autotests visualisationT consigne visualisationC regulation
+all: autotests visualisationT consigne visualisationC regulation  main
 
 main: main.c autotests.o visualisationT.o consigne.o visualisationC.o regulation.o
 	gcc -o autotests main.c autotests.o visualisationT.o consigne.o visualisationC.o regulation.o -lm

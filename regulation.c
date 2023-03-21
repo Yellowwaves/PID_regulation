@@ -10,6 +10,7 @@ float regulationTest(int regul, float consigne, float *tabT, int nT)
 	float Kd = 0.15;
 	float P = 0;
 	float I = 0;
+	float D = 0;
 	float derivative = 0;
 	float error = 0;
 	float last_error = 0;
@@ -33,15 +34,20 @@ float regulationTest(int regul, float consigne, float *tabT, int nT)
 		{
 			error = consigne - tabT[compteur];
 
+			// if(compteur == 0)
+			// {
+			// 	break;
+			// }
 			// Calculate integral
-			integral += error * 0.1;
-
+			integral += error;
 			// Calculate derivative
-			derivative = (error - (consigne-tabT[compteur-1])) / 0.1;
-			last_error = error;
+			derivative = (error - tabT[compteur - 1]);
+			P = Kp * error;
+			I= Ki * integral;
+			D = Kd * derivative;
 
 			// Calculate output
-			cmd = Kp * error + Ki * integral + Kd * derivative;
+			cmd = P + I + D;
 		}
 	}
 	if (cmd > 100.0)

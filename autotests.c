@@ -5,8 +5,8 @@
 #include "visualisationC.h"
 #include "regulation.h"
 #include <math.h>
-#define DISPLAY_DEBUG
 float testConsigne(){
+	
 	float score=0.0;
 	// Variables declaration
 	FILE* pf;
@@ -193,10 +193,9 @@ float testVisualisationT(){
 		fscanf(pf,"%f",&exterieure_read);
 		
 		fclose(pf);
-		if(strcmp(temoin_chauffe,temoin_chauffe_read)==0 && exterieure_read==temperature[1].exterieure && interieure_read==temperature[1].interieure){
+		if(exterieure_read==temperature[1].exterieure && interieure_read==temperature[1].interieure && strcmp(temoin_chauffe,temoin_chauffe_read)==0){
 			test_display=1;
 		}else{
-			printf("temoin_chauffe_read=%s, temoin_chauffe=%s, exterieure_read=%f, temperature[1].exterieure=%f, interieure_read=%f, temperature[1].interieure=%f\n",temoin_chauffe_read,temoin_chauffe,exterieure_read,temperature[1].exterieure,interieure_read,temperature[1].interieure);
 			test_display=0;
 		}
 	}
@@ -264,7 +263,7 @@ float testVisualisationT(){
 				fscanf(pf,"%f\n%f",&interieure_read,&exterieure_read);
 				fclose(pf);
 				// Values in data.txt should not have changed: mes
-				if(interieure_read==temperature[0].interieure && strcmp(temoin_chauffe,temoin_chauffe_read)==0 && exterieure_read==temperature[0].exterieure ){
+				if(exterieure_read==temperature[0].exterieure && interieure_read==temperature[0].interieure && strcmp(temoin_chauffe,temoin_chauffe_read)==0){
 					test_lock=1;
 				}else{
 					test_lock=0;
@@ -429,7 +428,7 @@ float testVisualisationC(){
 				test_lock = 0;
 			}else{	
 				fscanf(pf,"%s",temoin_chauffe_read);
-				fscanf(pf,"%f\n%f",&interieure_read,&exterieure_read);fscanf(pf,"%f\n%f",&interieure_read,&exterieure_read);
+				fscanf(pf,"%f\n%f",&interieure_read,&exterieure_read);
 				fclose(pf);
 				
 				// Values in data.txt should not have changed
